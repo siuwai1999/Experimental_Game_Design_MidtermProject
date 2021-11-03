@@ -1,0 +1,11 @@
+
+=== Mon Nov  1 21:28:24 2021
+
+Packages were changed.
+Update Mode: updateDependencies
+
+The following packages were 已更新:
+  com.unity.2d.animation 從版本 5.0.7 到 5.0.8
+  com.unity.2d.psdimporter 從版本 4.1.0 到 4.1.1
+  com.unity.2d.spriteshape 從版本 5.1.4 到 5.1.5
+  com.unity.collab-proxy 從版本 1.9.0 到 1.13.5
