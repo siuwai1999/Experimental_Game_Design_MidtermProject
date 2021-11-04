@@ -6,17 +6,14 @@ using UnityEngine.SceneManagement;
 public class PlayerScript : MonoBehaviour
 {
 
-    [Header("玩家血量"),Range(1,10)]
+    [Header("玩家血量"),Range(1,5)]
     public int Player_HP = 5;
 
     [Header("玩家攻擊力"), Range(1, 10)]
     public int Player_ATK = 1;
 
     [Header("玩家移動速度"), Range(1, 10)]
-    public int Player_SPEED = 1;
-
-    [Header("玩家是否衝刺中")]
-    public bool PlayerIsSprinting = false;
+    public int Player_MoveSpeed = 5;
 
     [Header("玩家是否攻擊中")]
     public bool PlayerIsAttacking = false;
@@ -24,21 +21,13 @@ public class PlayerScript : MonoBehaviour
     [Header("玩家是否跳躍中")]
     public bool PlayerIsJumping = false;
 
-    public void Player_Sprinting() /*玩家衝刺函數*/
-    {
-        PlayerIsSprinting = true;
-        Player_SPEED = Player_SPEED * 2;
-        print("玩家衝刺中");
-        Player_SPEED = Player_SPEED / 2;
-        PlayerIsSprinting = false;
-    }
 
     public void Player_Jumping () /*玩家跳躍判斷函數*/
     {
         if(PlayerIsJumping == false)
         {
             PlayerIsJumping = true;
-            print("呼叫玩家跳躍動畫");
+            print("調用玩家跳躍動畫");
             PlayerIsJumping = false;
         }
     }
@@ -50,12 +39,11 @@ public class PlayerScript : MonoBehaviour
             PlayerIsAttacking = true;
             if (PlayerIsJumping == false)
             {
-                //地面攻擊動畫
+                print("地面攻擊");
             }
             else
             {
-                print("空中禁止攻擊");
-                //或空中攻擊動畫
+                print("空中攻擊");
             }
             PlayerIsAttacking = false;
         }
@@ -63,7 +51,7 @@ public class PlayerScript : MonoBehaviour
 
     public void Player_Die () /*玩家死亡函數*/
     {
-        print("呼叫玩家死亡動畫");
+        print("調用玩家死亡場景");
         SceneManager.LoadScene("GameOver");
     }
 
@@ -77,6 +65,7 @@ public class PlayerScript : MonoBehaviour
 
     public void Player_GetHurt () /*玩家受傷函數*/
     {
+        print("調用玩家受傷動畫");
         Player_HP--;
         Check_Player_HP();
     }
@@ -84,6 +73,13 @@ public class PlayerScript : MonoBehaviour
     void Start ()
     {
         print("實驗遊戲設計3A 孤帆遠影畢書盡 \n 108051864_關兆煒  108051044_曾宇寬  108051730_林奎沅");
+    }
+
+    void Update()
+    {
+        Vector2 Player_Move = transform.position;
+        Player_Move.x = Player_Move.x + Input.GetAxis("Horizontal") * Player_MoveSpeed / 150;
+        transform.position = Player_Move;
     }
 
 }
