@@ -1,4 +1,5 @@
 using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -7,7 +8,7 @@ public class PlayerScript : MonoBehaviour
 {
     Animator animator;
 
-    [Header("玩家血量"),Range(1,5)]
+    [Header("玩家血量"),Range(0,5)]
     public int Player_HP = 5;
 
     [Header("玩家攻擊力"), Range(1, 10)]
@@ -33,9 +34,11 @@ public class PlayerScript : MonoBehaviour
             PlayerIsJumping = true;
             animator.SetBool("Jump_Bool", PlayerIsJumping);
             print("呼叫玩家跳躍動畫");
-            PlayerIsJumping = false;
+            Invoke("SetPlayerIsJumping", 1);
         }
     }
+
+    void SetPlayerIsJumping() { PlayerIsJumping = false;animator.SetBool("Jump_Bool", PlayerIsJumping); }
 
     public void Player_Attacking () /*玩家攻擊函數*/
     {
@@ -52,18 +55,24 @@ public class PlayerScript : MonoBehaviour
                 print("空中攻擊");
                 animator.SetTrigger("Attack2_Trigger");
             }
-            PlayerIsAttacking = false;
+            Invoke("SetAttacking", 1);
         }
     }
+
+    void SetAttacking() { PlayerIsAttacking = false; }
 
     public void Check_Player_HP () /*玩家血量判斷*/
     {
         if (Player_HP == 0)
         {
             print("呼叫玩家死亡場景");
-            SceneManager.LoadScene("GameOver");
+            bool Death = true;
+            animator.SetBool("Die_Bool", Death);
+            Invoke("SetScene", 3);
         }
     }
+
+    void SetScene() { SceneManager.LoadScene("GameOver"); }
 
     public void Player_GetHurt () /*玩家受傷函數*/
     {
