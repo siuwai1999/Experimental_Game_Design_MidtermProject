@@ -23,9 +23,21 @@ public class PlayerScript : MonoBehaviour
     [Header("玩家是否跳躍中")]
     public bool PlayerIsJumping = false;
 
-    public SpriteRenderer m_SpriteRenderer;
+    public float RoundSize = 0.25f;
+    public Vector3 Round;
+
+    public LayerMask Ground;
+
+    public Rigidbody2D Rigi;
+
+    public SpriteRenderer Sprite;
     public GameObject Pause_UI_Canvas;
 
+    public void OnDrawGizmos()
+    {
+        Gizmos.color = new Color(1, 0, 0, 0.5f);
+        Gizmos.DrawSphere(transform.position + Round, RoundSize);
+    }
 
     public void Player_Jumping () /*玩家跳躍判斷函數*/
     {
@@ -100,53 +112,63 @@ public class PlayerScript : MonoBehaviour
 
     public void Player_Move_Ctrl () /*玩家移動控制函數*/
     {
-        Vector2 Player_Move = transform.position;
-        Player_Move.x = Player_Move.x + Input.GetAxis("Horizontal") * Player_MoveSpeed / 300;
-        transform.position = Player_Move;
+        //Vector2 Player_Move = transform.position;
+        //Player_Move.x = Player_Move.x + Input.GetAxis("Horizontal") * Player_MoveSpeed / 300;
+        //transform.position = Player_Move;
 
-        if (Input.GetAxis("Horizontal") < 0)
-        {
-            m_SpriteRenderer.flipX = true;
-        }
-        else if (Input.GetAxis("Horizontal") > 0)
-        {
-            m_SpriteRenderer.flipX = false;
-        }
-
-        if (Input.GetAxis("Horizontal") != 0)
-        {
-            bool Horizontal_Move = true;
-            animator.SetBool("Walk_Bool", Horizontal_Move);
-        }
-        else if (Input.GetAxis("Horizontal") == 0)
-        {
-            bool Horizontal_Move = false;
-            animator.SetBool("Walk_Bool", Horizontal_Move);
-        }
-
-        if (Input.GetButton("Jump"))
-        {
-            Player_Jumping();
-        }
+        //if (Input.GetButton("Jump"))
+        //{
+        //    Player_Jumping();
+        //}
 
         if (Input.GetButton("Fire1"))
         {
             Player_Attacking();
         }
 
+        float Horizontal = Input.GetAxis("Horizontal");
+        Rigi.velocity = new Vector2(Horizontal * Player_MoveSpeed, Rigi.velocity.y);
+
+        if (Horizontal < 0)
+        {
+            Sprite.flipX = true;
+        }
+        else if (Horizontal > 0)
+        {
+            Sprite.flipX = false;
+        }
+
+        if (Horizontal != 0)
+        {
+            bool Horizontal_Move = true;
+            animator.SetBool("Walk_Bool", Horizontal_Move);
+        }
+        else if (Horizontal == 0)
+        {
+            bool Horizontal_Move = false;
+            animator.SetBool("Walk_Bool", Horizontal_Move);
+        }
+
     }
 
+    
     void Start ()
     {
         print("實驗遊戲設計3A 孤帆遠影畢書盡 \n 108051864_關兆煒  108051044_曾宇寬  108051730_林奎沅");
         Pause_UI_Canvas.SetActive(false);
         animator = GetComponent<Animator>();
+        Sprite = GetComponent<SpriteRenderer>();
+        Rigi = GetComponent<Rigidbody2D>();
     }
 
     void Update()
     {
-        Player_Move_Ctrl();
         Game_Pause();
+    }
+
+    private void FixedUpdate()
+    {
+        Player_Move_Ctrl();
     }
 
 }
