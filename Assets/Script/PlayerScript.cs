@@ -17,13 +17,16 @@ public class PlayerScript : MonoBehaviour
     [Header("玩家移動速度"), Range(1, 10)]
     public int Player_MoveSpeed = 5;
 
+    [Header("玩家跳躍高度")]
+    public int Player_JumpHeigh = 250;
+
     [Header("玩家是否攻擊中")]
     public bool PlayerIsAttacking = false;
     
     [Header("玩家是否跳躍中")]
     public bool PlayerIsJumping = false;
 
-    public float RoundSize = 0.25f;
+    public float RoundSize = 0.8f;
     public Vector3 Round;
 
     public LayerMask Ground;
@@ -39,33 +42,35 @@ public class PlayerScript : MonoBehaviour
         Gizmos.DrawSphere(transform.position + Round, RoundSize);
     }
 
+    public void CheckGround()
+    {
+        Collider2D Hit = Physics2D.OverlapCircle(transform.position + Round, RoundSize, Ground);
+        PlayerIsJumping = Hit;
+    }
+
     public void Player_Jumping () /*玩家跳躍判斷函數*/
     {
-        if(PlayerIsJumping == false)
+        if(PlayerIsJumping && Input.GetButton("Jump"))
         {
-            PlayerIsJumping = true;
             animator.SetBool("Jump_Bool", PlayerIsJumping);
-            print("呼叫玩家跳躍動畫");
-            Invoke("SetPlayerIsJumping", 1);
+            Rigi.AddForce(new Vector2(0, Player_JumpHeigh));
+        }
+        else 
+        {
+            animator.SetBool("Jump_Bool", !PlayerIsJumping);
         }
     }
 
-    void SetPlayerIsJumping() { PlayerIsJumping = false;animator.SetBool("Jump_Bool", PlayerIsJumping); }
 
     public void Player_Attacking () /*玩家攻擊函數*/
     {
         if (PlayerIsAttacking == false)
         {
             PlayerIsAttacking = true;
-            if (PlayerIsJumping == false)
+            if (PlayerIsJumping == true)
             {
                 print("地面攻擊");
                 animator.SetTrigger("Attack_Trigger");
-            }
-            else
-            {
-                print("空中攻擊");
-                animator.SetTrigger("Attack2_Trigger");
             }
             Invoke("SetAttacking", 1);
         }
@@ -116,11 +121,6 @@ public class PlayerScript : MonoBehaviour
         //Player_Move.x = Player_Move.x + Input.GetAxis("Horizontal") * Player_MoveSpeed / 300;
         //transform.position = Player_Move;
 
-        //if (Input.GetButton("Jump"))
-        //{
-        //    Player_Jumping();
-        //}
-
         if (Input.GetButton("Fire1"))
         {
             Player_Attacking();
@@ -143,7 +143,7 @@ public class PlayerScript : MonoBehaviour
             bool Horizontal_Move = true;
             animator.SetBool("Walk_Bool", Horizontal_Move);
         }
-        else if (Horizontal == 0)
+        else
         {
             bool Horizontal_Move = false;
             animator.SetBool("Walk_Bool", Horizontal_Move);
@@ -164,6 +164,8 @@ public class PlayerScript : MonoBehaviour
     void Update()
     {
         Game_Pause();
+        CheckGround();
+        Player_Jumping();
     }
 
     private void FixedUpdate()
