@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class ButtonsScript : MonoBehaviour
 {
+
     public void ExitGame() 
     {
         print("退出遊戲");
@@ -23,5 +24,5 @@ public class ButtonsScript : MonoBehaviour
         print("返回標題");
         SceneManager.LoadScene("MainMenu");
     }
-    
+
 }

@@ -1,176 +1,203 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class PlayerScript : MonoBehaviour
 {
-    Animator animator;
+    #region æ¬„ä½
 
-    [Header("ª±®a¦å¶q"),Range(0,5)]
-    public int Player_HP = 5;
+        #region å…¬é–‹æ¬„ä½
+        [Header("ç©å®¶è¡€é‡")]
+        public int Player_HP = 5;
+        [Header("ç©å®¶æ”»æ“ŠåŠ›")]
+        public int Player_ATK = 1;
+        [Header("ç©å®¶ç§»å‹•é€Ÿåº¦")]
+        public int Player_MoveSpeed = 5;
+        [Header("ç©å®¶æœ€å¤§è·³èºé«˜åº¦")]
+        public int Player_MaxJumpHeigh = 1500;
+        [Header("ç©å®¶è·³èºé«˜åº¦")]
+        public float Player_JumpHeigh = 250;
+        [Header("ç©ºç™½éµé•·æŒ‰æ™‚é–“")]
+        [Tooltip("å€¼è¶Šå° éœ€è¦é•·æŒ‰çš„æ™‚é–“è¶ŠçŸ­\nå€¼è¶Šå¤§ éœ€è¦é•·æŒ‰çš„æ™‚é–“è¶Šé•·")] public float HoldTimeMultiply = 750;
+        [Header("ç©å®¶æ˜¯å¦æ”»æ“Šä¸­")]
+        [Tooltip("False ç„¡æ”»æ“Šï¼ŒTrue æ”»æ“Šä¸­")] public bool PlayerIsAttacking = false;
+        [Header("ç©å®¶æ˜¯å¦è·³èºä¸­")]
+        [Tooltip("False åœ¨åœ°é¢ï¼ŒTrue åœ¨ç©ºä¸­")] public bool PlayerIsJumping = false;
+        [Header("Gizmosåœ“å½¢è¨­å®š")]
+        [Tooltip("åœ“å½¢åŠå¾‘")] public float CircleRadius = 0.25f;
+        [Tooltip("åœ“å½¢åœ“å¿ƒ")] public Vector3 CenterOfCircle;
+        [Header("åœ°æ¿åœ–å±¤")]
+        public LayerMask Ground;
+        [Header("æš«åœé¸å–®ç•«å¸ƒ")]
+        public GameObject Pause_UI_Canvas;
+        [Header("è¨ˆæ™‚å™¨")]
+        public Text Timer;
+        #endregion
 
-    [Header("ª±®a§ğÀ»¤O"), Range(1, 10)]
-    public int Player_ATK = 1;
+        #region ç§äººæ¬„ä½
+        private bool HoldSpaceUp = false;
+        private float StartHoldSpaceTime;
+        private float Player_JumpHeigh_Time;
+        private Animator animator;
+        private Rigidbody2D rb;
+        private SpriteRenderer sr;
+    #endregion
 
-    [Header("ª±®a²¾°Ê³t«×"), Range(1, 10)]
-    public int Player_MoveSpeed = 5;
+    #endregion
 
-    [Header("ª±®a¸õÅD°ª«×")]
-    public int Player_JumpHeigh = 250;
+    #region æ–¹æ³•
 
-    [Header("ª±®a¬O§_§ğÀ»¤¤")]
-    public bool PlayerIsAttacking = false;
-    
-    [Header("ª±®a¬O§_¸õÅD¤¤")]
-    public bool PlayerIsJumping = false;
-
-    public float RoundSize = 0.8f;
-    public Vector3 Round;
-
-    public LayerMask Ground;
-
-    public Rigidbody2D Rigi;
-
-    public SpriteRenderer Sprite;
-    public GameObject Pause_UI_Canvas;
-
-    public void OnDrawGizmos()
+    public void CheckGround() /*åµæ¸¬æ˜¯å¦é›¢é–‹åœ°é¢ï¼Œå¦‚æœåœ¨åœ°é¢ä¸Š è¨­å®šPlayerIsJumpingç‚º Falseï¼Œå¦‚æœåœ¨ç©ºä¸­ è¨­å®šPlayerIsJumpingç‚º True*/
     {
-        Gizmos.color = new Color(1, 0, 0, 0.5f);
-        Gizmos.DrawSphere(transform.position + Round, RoundSize);
+        Collider2D isGround = Physics2D.OverlapCircle(transform.position + CenterOfCircle, CircleRadius, Ground);
+        PlayerIsJumping = !isGround;
     }
 
-    public void CheckGround()
+    public void Player_Jumping () /*ç©å®¶è·³èºåˆ¤æ–·å‡½æ•¸*/
     {
-        Collider2D Hit = Physics2D.OverlapCircle(transform.position + Round, RoundSize, Ground);
-        PlayerIsJumping = Hit;
-    }
-
-    public void Player_Jumping () /*ª±®a¸õÅD§PÂ_¨ç¼Æ*/
-    {
-        if(PlayerIsJumping && Input.GetButton("Jump"))
+        if (HoldSpaceUp)
         {
-            animator.SetBool("Jump_Bool", PlayerIsJumping);
-            Rigi.AddForce(new Vector2(0, Player_JumpHeigh));
+            rb.AddForce(new Vector2(0, Player_JumpHeigh));
         }
-        else 
+        if (PlayerIsJumping)
         {
-            animator.SetBool("Jump_Bool", !PlayerIsJumping);
+            animator.SetBool("Jump_Bool", true);
+        }
+        else if (!PlayerIsJumping)
+        {
+            animator.SetBool("Jump_Bool", false);
+            HoldSpaceUp = false;
         }
     }
 
-
-    public void Player_Attacking () /*ª±®a§ğÀ»¨ç¼Æ*/
+    public void Player_HoldSpace() /*ç©å®¶é•·æŒ‰ç©ºç™½éµåˆ¤æ–·å‡½æ•¸ï¼ŒPlayer_JumpHeigh_Time ç‚ºé•·æŒ‰ç©ºç™½éµæ™‚é–“ï¼ŒPlayer_JumpHeigh ç‚ºè¨ˆç®—å¾Œçš„è·³èºé«˜åº¦*/
     {
-        if (PlayerIsAttacking == false)
+        if (!PlayerIsJumping && Input.GetButtonDown("Jump"))
+        {
+            StartHoldSpaceTime = Time.time;
+            animator.SetBool("HoldSpace_Bool", true);
+        }
+
+        if (!PlayerIsJumping && Input.GetButtonUp("Jump"))
+        {
+            Player_JumpHeigh_Time = Time.time - StartHoldSpaceTime;
+            Player_JumpHeigh = (Time.time - StartHoldSpaceTime) * HoldTimeMultiply; /*(æŒ‰ä¸‹ç©ºç™½éµæ™‚é–“ åŠ  é¬†é–‹ç©ºç™½éµçš„æ™‚é–“) ä¹˜  HoldTimeMultiply*/
+            if (Player_JumpHeigh <= Player_MaxJumpHeigh)
+            {
+                HoldSpaceUp = true;
+            }
+            else if (Player_JumpHeigh > Player_MaxJumpHeigh)
+            {
+                Player_JumpHeigh = Player_MaxJumpHeigh;
+                HoldSpaceUp = true;
+            }
+            animator.SetBool("HoldSpace_Bool", false);
+            print("è·³èºé«˜åº¦" + Player_JumpHeigh + "é•·æŒ‰æ™‚é–“(ç§’)" + Player_JumpHeigh_Time);
+        }
+    }
+
+    public void Player_Attacking () /*ç©å®¶æ”»æ“Šå‡½æ•¸*/
+    {
+        if (Input.GetButton("Fire1") && PlayerIsAttacking == false)
         {
             PlayerIsAttacking = true;
-            if (PlayerIsJumping == true)
-            {
-                print("¦a­±§ğÀ»");
-                animator.SetTrigger("Attack_Trigger");
-            }
+            print("åœ°é¢æ”»æ“Š");
+            animator.SetTrigger("Attack_Trigger");
             Invoke("SetAttacking", 1);
         }
     }
-
     void SetAttacking() { PlayerIsAttacking = false; }
 
-    public void Check_Player_HP () /*ª±®a¦å¶q§PÂ_*/
+    public void Player_GetHurt () /*ç©å®¶å—å‚·å‡½æ•¸*/
     {
-        if (Player_HP == 0)
+        animator.SetTrigger("Hurt_Trigger");
+        Player_HP--;
+        if (Player_HP <= 0)
         {
-            print("©I¥sª±®a¦º¤`³õ´º");
-            bool Death = true;
-            animator.SetBool("Die_Bool", Death);
+            print("å‘¼å«ç©å®¶æ­»äº¡å ´æ™¯");
+            animator.SetBool("Die_Bool", true);
             Invoke("SetScene", 3);
         }
     }
-
     void SetScene() { SceneManager.LoadScene("GameOver"); }
 
-    public void Player_GetHurt () /*ª±®a¨ü¶Ë¨ç¼Æ*/
+    public void Player_Move_Ctrl () /*ç©å®¶ç§»å‹•æ§åˆ¶å‡½æ•¸ï¼Œå¦‚æœé•·æŒ‰ç©ºç™½éµä¸­å‰‡ä¸ç§»å‹•*/
     {
-        print("©I¥sª±®a¨ü¶Ë°Êµe");
-        Player_HP--;
-        Check_Player_HP();
+        if (!animator.GetBool("HoldSpace_Bool"))
+        {
+            float Horizontal = Input.GetAxis("Horizontal");
+            rb.velocity = new Vector2(Horizontal * Player_MoveSpeed, rb.velocity.y);
+
+            if (Horizontal < 0)
+            {
+                sr.flipX = true;
+            }
+            else if (Horizontal > 0)
+            {
+                sr.flipX = false;
+            }
+
+            if (Horizontal != 0)
+            {
+                animator.SetBool("Walk_Bool", true);
+            }
+            else
+            {
+                animator.SetBool("Walk_Bool", false);
+            }
+        }
     }
 
-    public void Game_Pause () /*¼È°±¿ï³æ¨ç¼Æ*/
+    public void Game_Pause() /*æš«åœé¸å–®å‡½æ•¸*/
     {
         if (Input.GetButtonDown("Cancel"))
         {
             if (Pause_UI_Canvas.activeSelf == true)
             {
                 Pause_UI_Canvas.SetActive(false);
-                print("Ãö³¬¼È°±¿ï³æ");
+                Time.timeScale = 1;
+                print("é—œé–‰æš«åœé¸å–®");
             }
             else
             {
                 Pause_UI_Canvas.SetActive(true);
-                print("¶}±Ò¼È°±¿ï³æ");
+                Time.timeScale = 0;
+                print("é–‹å•Ÿæš«åœé¸å–®");
             }
         }
     }
 
-    public void Player_Move_Ctrl () /*ª±®a²¾°Ê±±¨î¨ç¼Æ*/
+    #endregion
+
+    #region Unity äº‹ä»¶
+    public void OnDrawGizmos()
     {
-        //Vector2 Player_Move = transform.position;
-        //Player_Move.x = Player_Move.x + Input.GetAxis("Horizontal") * Player_MoveSpeed / 300;
-        //transform.position = Player_Move;
-
-        if (Input.GetButton("Fire1"))
-        {
-            Player_Attacking();
-        }
-
-        float Horizontal = Input.GetAxis("Horizontal");
-        Rigi.velocity = new Vector2(Horizontal * Player_MoveSpeed, Rigi.velocity.y);
-
-        if (Horizontal < 0)
-        {
-            Sprite.flipX = true;
-        }
-        else if (Horizontal > 0)
-        {
-            Sprite.flipX = false;
-        }
-
-        if (Horizontal != 0)
-        {
-            bool Horizontal_Move = true;
-            animator.SetBool("Walk_Bool", Horizontal_Move);
-        }
-        else
-        {
-            bool Horizontal_Move = false;
-            animator.SetBool("Walk_Bool", Horizontal_Move);
-        }
-
+        Gizmos.color = new Color(1, 0, 0, 0.5f);
+        Gizmos.DrawSphere(transform.position + CenterOfCircle, CircleRadius);
     }
-
-    
-    void Start ()
+    void Start()
     {
-        print("¹êÅç¹CÀ¸³]­p3A ©t¦|»·¼v²¦®ÑºÉ \n 108051864_Ãö¥üŞm  108051044_´¿¦t¼e  108051730_ªL«¶¨J");
-        Pause_UI_Canvas.SetActive(false);
         animator = GetComponent<Animator>();
-        Sprite = GetComponent<SpriteRenderer>();
-        Rigi = GetComponent<Rigidbody2D>();
+        sr = GetComponent<SpriteRenderer>();
+        rb = GetComponent<Rigidbody2D>();
+        Pause_UI_Canvas.SetActive(false);
     }
-
     void Update()
     {
-        Game_Pause();
         CheckGround();
-        Player_Jumping();
+        Game_Pause();
+        Player_HoldSpace();
+        Player_Attacking();
+        Timer.text = Time.time.ToString();
     }
-
     private void FixedUpdate()
     {
         Player_Move_Ctrl();
+        Player_Jumping();
     }
+    #endregion
 
 }
