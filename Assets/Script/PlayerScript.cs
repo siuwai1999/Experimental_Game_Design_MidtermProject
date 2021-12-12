@@ -35,9 +35,11 @@ public class PlayerScript : MonoBehaviour
         public GameObject Pause_UI_Canvas;
         [Header("計時器")]
         public Text Timer;
-        #endregion
+        public PhysicsMaterial2D WithFriction;    // 有摩擦力的
+        public PhysicsMaterial2D NothFriction;    // 无摩擦力的
+    #endregion
 
-        #region 私人欄位
+    #region 私人欄位
         private bool HoldSpaceUp = false;
         private float StartHoldSpaceTime;
         private float Player_JumpHeigh_Time;
@@ -65,11 +67,13 @@ public class PlayerScript : MonoBehaviour
         if (PlayerIsJumping)
         {
             animator.SetBool("Jump_Bool", true);
+            rb.sharedMaterial = NothFriction;
         }
         else if (!PlayerIsJumping)
         {
             animator.SetBool("Jump_Bool", false);
-            HoldSpaceUp = false;
+            rb.sharedMaterial = WithFriction; 
+             HoldSpaceUp = false;
         }
     }
 
