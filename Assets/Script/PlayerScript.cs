@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class PlayerScript : MonoBehaviour
@@ -33,8 +32,6 @@ public class PlayerScript : MonoBehaviour
         public LayerMask Ground;
         [Header("暫停選單畫布")]
         public GameObject Pause_UI_Canvas;
-        [Header("計時器")]
-        public Text Timer;
         public PhysicsMaterial2D WithFriction;    // 有摩擦力的
         public PhysicsMaterial2D NothFriction;    // 无摩擦力的
     #endregion
@@ -195,7 +192,6 @@ public class PlayerScript : MonoBehaviour
         Game_Pause();
         Player_HoldSpace();
         Player_Attacking();
-        Timer.text = Time.time.ToString();
     }
     private void FixedUpdate()
     {

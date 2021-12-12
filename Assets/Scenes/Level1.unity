@@ -17948,6 +17948,7 @@ GameObject:
   - component: {fileID: 867283597}
   - component: {fileID: 867283599}
   - component: {fileID: 867283598}
+  - component: {fileID: 867283600}
   m_Layer: 5
   m_Name: Timer
   m_TagString: Untagged
@@ -18016,6 +18017,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 867283596}
   m_CullTransparentMesh: 1
+--- !u!114 &867283600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 867283596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65856fdb359d393408c410047dc75e30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Timer: {fileID: 0}
+  Time_f: 0
+  Time_i: 0
+  Second: 0
+  Minute: 0
+  hour: 0
 --- !u!1 &891070131
 GameObject:
   m_ObjectHideFlags: 0
@@ -19396,7 +19415,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   Pause_UI_Canvas: {fileID: 567299715}
-  Timer: {fileID: 867283598}
   WithFriction: {fileID: 6200000, guid: f4387e90de106a045a5fb4907f2d9670, type: 2}
   NothFriction: {fileID: 6200000, guid: e6bcb58d5038b284db060f437efd0c4e, type: 2}
 --- !u!95 &1654120528
