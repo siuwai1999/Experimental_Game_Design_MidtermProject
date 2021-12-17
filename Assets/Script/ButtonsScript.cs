@@ -5,24 +5,16 @@ using UnityEngine.SceneManagement;
 
 public class ButtonsScript : MonoBehaviour
 {
+    public StartMenu StartMenu;
 
-    public void ExitGame() 
+    public void Restart()
     {
-        print("退出遊戲");
-        UnityEditor.EditorApplication.isPlaying = false;
-        Application.Quit();
-    }
-
-    public void StartGame()
-    {
-        print("開始遊戲");
         SceneManager.LoadScene("Level1");
     }
 
     public void MainMenu()
     {
-        print("返回標題");
-        SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
     }
 
 }

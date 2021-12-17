@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: New Dialogue Data 1
   m_EditorClassIdentifier: 
   Dialogue:
-  - Hello
-  - How Are You
+  - "\u4F60\u597D\uFF0C\u4F60\u53EF\u80FD\u770B\u5230\u6211\u5F88\u591A\u6B21\u3002"
+  - "\u4F60\u9084\u597D\u55CE\uFF1F"
+  - "Are You Ok \uFF1F"

@@ -4,22 +4,29 @@ using UnityEngine;
 
 public class CameraSwitcher : MonoBehaviour
 {
-    public int cameraIndex;
-    public Camera[] cameras;
+    public Camera PlayerCamera;
+    private Camera[] cameras;
 
-    void Start()
+    void DisbleAllCam()
     {
-        cameraIndex = 0;
-
         cameras = new Camera[Camera.allCameras.Length];
         for (int i = 0; i < Camera.allCameras.Length; i++)
         {
             Camera.allCameras[i].enabled = false;
         }
-        cameras[cameraIndex].enabled = true;
     }
-    public void ChangeCam(int CamNum)
+    void Start()
     {
+        PlayerCamera = GetComponent<Camera>();
+        DisbleAllCam();
+    }
 
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Player")
+        {
+            DisbleAllCam();
+            PlayerCamera.enabled = true;
+        }
     }
 }
