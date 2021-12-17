@@ -249,6 +249,8 @@ GameObject:
   - component: {fileID: 76635637}
   - component: {fileID: 76635639}
   - component: {fileID: 76635638}
+  - component: {fileID: 76635640}
+  - component: {fileID: 76635641}
   m_Layer: 0
   m_Name: Goblin
   m_TagString: Untagged
@@ -264,7 +266,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 76635636}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -13.86, y: 4.926, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 932750101}
@@ -328,10 +330,10 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 4723107735738678597, guid: 0ad25e8540fd3044e9d900b36d277560, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 1
+  m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1.5, y: 1.5}
@@ -340,6 +342,36 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!58 &76635640
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 76635636}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 3.75
+--- !u!114 &76635641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 76635636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26df91569b6a81248ba49d5a19867a15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueData: {fileID: 11400000, guid: d60894db1d5ed6a49ac9f64fc5042ea0, type: 2}
+  dialogueSystem: {fileID: 2016241352}
 --- !u!1 &112517733
 GameObject:
   m_ObjectHideFlags: 0
@@ -20014,9 +20046,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1a76aa3bd616584298f564124e8b2a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TextSpeed: 0.25
+  TextSpeed: 0.1
   Text_UI_Canvas: {fileID: 2090198569}
   Text_UI: {fileID: 593481329}
+  Tips: {fileID: 706413113}
+  Next: 32
 --- !u!4 &2016241353
 Transform:
   m_ObjectHideFlags: 0

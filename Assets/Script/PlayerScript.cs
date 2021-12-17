@@ -8,7 +8,8 @@ public class PlayerScript : MonoBehaviour
 {
     #region 欄位
 
-        #region 公開欄位
+    #region 公開欄位
+    public int Player_LookX = 1;
         [Header("玩家血量")]
         public int Player_HP = 5;
         [Header("玩家攻擊力")]
@@ -60,6 +61,7 @@ public class PlayerScript : MonoBehaviour
         if (HoldSpaceUp)
         {
             rb.AddForce(new Vector2(0, Player_JumpHeigh));
+            rb.velocity = new Vector2(Player_LookX * Player_JumpHeigh / 90, rb.velocity.y);
         }
         if (PlayerIsJumping)
         {
@@ -127,19 +129,25 @@ public class PlayerScript : MonoBehaviour
 
     public void Player_Move_Ctrl () /*玩家移動控制函數，如果長按空白鍵中則不移動*/
     {
-        if (!animator.GetBool("HoldSpace_Bool"))
+        if (!PlayerIsJumping)
         {
             float Horizontal = Input.GetAxis("Horizontal");
-            rb.velocity = new Vector2(Horizontal * Player_MoveSpeed, rb.velocity.y);
+            if (!animator.GetBool("HoldSpace_Bool"))
+            {
+                rb.velocity = new Vector2(Horizontal * Player_MoveSpeed, rb.velocity.y);
+            }
 
             if (Horizontal < 0)
             {
                 sr.flipX = true;
+                Player_LookX = -1;
             }
             else if (Horizontal > 0)
             {
                 sr.flipX = false;
+                Player_LookX = 1;
             }
+            else { Player_LookX = 0; }
 
             if (Horizontal != 0)
             {
