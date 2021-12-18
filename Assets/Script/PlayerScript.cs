@@ -6,9 +6,11 @@ using UnityEngine.SceneManagement;
 
 public class PlayerScript : MonoBehaviour
 {
-#region 欄位
+    #region 欄位
 
     #region 公開欄位
+    public AudioSource audioSource;
+    public AudioClip JumpSound;
     public bool HardMode = false;
     public int Player_LookDirection = 1;
     [Header("玩家血量")]
@@ -76,7 +78,6 @@ public class PlayerScript : MonoBehaviour
                 rb.AddForce(new Vector2(0, Player_JumpHeigh));
             }
         }
-
         if (PlayerIsJumping)
         {
             animator.SetBool("Jump_Bool", true);
@@ -111,6 +112,7 @@ public class PlayerScript : MonoBehaviour
                 Player_JumpHeigh = Player_MaxJumpHeigh;
                 HoldSpaceUp = true;
             }
+            PlaySound(JumpSound);
             animator.SetBool("HoldSpace_Bool", false);
         }
     }
@@ -189,6 +191,11 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
+    public void PlaySound(AudioClip audioClip)
+    {
+        audioSource.PlayOneShot(audioClip);
+    }
+
     #endregion
 
     #region Unity 事件
@@ -203,6 +210,7 @@ public class PlayerScript : MonoBehaviour
     }
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
         sr = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();

@@ -5,32 +5,57 @@ using UnityEngine.UI;
 
 public class DebugScript : MonoBehaviour
 {
-    public PlayerScript player;
+    public GameObject DebugWindows;
+    public PlayerScript playerScript;
+    public GameTimer gameTimer;
+    public TrailRenderer trailRenderer;
     public Text Mode;
     public Text LookDirection;
     public Text HoldTime;
     public Text JumpHeigh;
+    public Text Jump;
+    public Text Trail;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        DebugWindows.SetActive(false);
+        trailRenderer.enabled = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        Mode.text = "困難模式:" + player.HardMode.ToString() ;
-        LookDirection.text = "方向:" + player.Player_LookDirection.ToString();
-        if (Input.GetButton("Jump") && !player.PlayerIsJumping)
+        if (Input.GetKeyDown(KeyCode.Q))
         {
-            HoldTime.text = "長按持間:" + (player.GameTime - player.StartHoldSpaceTime).ToString();
-            float JumpHeigh_Temp = (player.GameTime - player.StartHoldSpaceTime) * player.HoldTimeMultiply;
-            if (JumpHeigh_Temp > player.Player_MaxJumpHeigh)
+            if (DebugWindows.activeSelf)
             {
-                JumpHeigh_Temp = player.Player_MaxJumpHeigh;
+                DebugWindows.SetActive(false);
+                trailRenderer.enabled = false;
             }
-            JumpHeigh.text = "跳躍高度:" + (int)JumpHeigh_Temp;
+            else
+            {
+                DebugWindows.SetActive(true);
+                trailRenderer.enabled = true;
+            }
+        }
+
+        if (DebugWindows.activeSelf)
+        {
+            Mode.text = "困難模式:" + playerScript.HardMode.ToString() ;
+            LookDirection.text = "方向:" + playerScript.Player_LookDirection.ToString();
+            if (Input.GetButton("Jump") && !playerScript.PlayerIsJumping)
+            {
+                HoldTime.text = "長按持間:" + (playerScript.GameTime - playerScript.StartHoldSpaceTime).ToString();
+                float JumpHeigh_Temp = (playerScript.GameTime - playerScript.StartHoldSpaceTime) * playerScript.HoldTimeMultiply;
+                if (JumpHeigh_Temp > playerScript.Player_MaxJumpHeigh)
+                {
+                    JumpHeigh_Temp = playerScript.Player_MaxJumpHeigh;
+                }
+                JumpHeigh.text = "跳躍高度:" + (int)JumpHeigh_Temp;
+            }
+            Jump.text = "跳躍次數:" + gameTimer.Jump.ToString();
+            Trail.text = "軌跡渲染:" + trailRenderer.enabled;
         }
     }
 }   
