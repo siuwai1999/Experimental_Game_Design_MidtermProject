@@ -392,7 +392,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -10
   m_Sprite: {fileID: 21300000, guid: 4f788c99c7c8fb144884025165735b58, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -505,7 +505,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 405259836}
-        m_TargetAssemblyTypeName: StartMenu, Assembly-CSharp
+        m_TargetAssemblyTypeName: ModeSelect, Assembly-CSharp
         m_MethodName: HardMode
         m_Mode: 1
         m_Arguments:
@@ -563,12 +563,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 405259831}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 109b232f773e77d4d9b4a838bf182292, type: 3}
+  m_Script: {fileID: 11500000, guid: 841b959944e428440b57ea5a58432abe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerScript: {fileID: 3766572265717676094, guid: d46c27197c8fdd84eb9cc1af57189971, type: 3}
-  GameTitle: {fileID: 0}
-  ModeSelect: {fileID: 0}
+  playerScript: {fileID: 3766572265717676094, guid: d46c27197c8fdd84eb9cc1af57189971, type: 3}
 --- !u!1 &530549897
 GameObject:
   m_ObjectHideFlags: 0
@@ -871,6 +869,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 821658110}
+  - component: {fileID: 821658112}
   m_Layer: 5
   m_Name: Game Title
   m_TagString: Untagged
@@ -896,9 +895,28 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -106}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!95 &821658112
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 821658109}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 49e04e66640b2ff44ad0f43077d62624, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &833843210
 GameObject:
   m_ObjectHideFlags: 0
@@ -1256,6 +1274,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1470319315}
+  - component: {fileID: 1470319316}
   m_Layer: 5
   m_Name: Mode
   m_TagString: Untagged
@@ -1284,6 +1303,25 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 72}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!95 &1470319316
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1470319314}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 0348c1b9901060f44827d6b749b4c052, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1473518003
 GameObject:
   m_ObjectHideFlags: 0
@@ -1430,9 +1468,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 109b232f773e77d4d9b4a838bf182292, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerScript: {fileID: 0}
-  GameTitle: {fileID: 821658109}
-  ModeSelect: {fileID: 1470319314}
+  GameTitle: {fileID: 821658112}
+  ModeSelect: {fileID: 1470319316}
 --- !u!1 &1711400408
 GameObject:
   m_ObjectHideFlags: 0
@@ -1905,7 +1942,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1965700489}
-        m_TargetAssemblyTypeName: StartMenu, Assembly-CSharp
+        m_TargetAssemblyTypeName: ModeSelect, Assembly-CSharp
         m_MethodName: NormalMode
         m_Mode: 1
         m_Arguments:
@@ -1963,12 +2000,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1965700484}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 109b232f773e77d4d9b4a838bf182292, type: 3}
+  m_Script: {fileID: 11500000, guid: 841b959944e428440b57ea5a58432abe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerScript: {fileID: 3766572265717676094, guid: d46c27197c8fdd84eb9cc1af57189971, type: 3}
-  GameTitle: {fileID: 0}
-  ModeSelect: {fileID: 0}
+  playerScript: {fileID: 3766572265717676094, guid: d46c27197c8fdd84eb9cc1af57189971, type: 3}
 --- !u!1 &2074252401
 GameObject:
   m_ObjectHideFlags: 0

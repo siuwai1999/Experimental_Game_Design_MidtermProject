@@ -94,7 +94,7 @@ public class PlayerScript : MonoBehaviour
     {
         if (!PlayerIsJumping && Input.GetButtonDown("Jump"))
         {
-            StartHoldSpaceTime = Time.time;
+            StartHoldSpaceTime = GameTime;
             animator.SetBool("HoldSpace_Bool", true);
         }
 
@@ -197,6 +197,10 @@ public class PlayerScript : MonoBehaviour
         Gizmos.color = new Color(1, 0, 0, 0.5f);
         Gizmos.DrawSphere(transform.position + CenterOfCircle, CircleRadius);
     }
+    void Awake()
+    {
+        Time.timeScale = 1;
+    }
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -210,7 +214,7 @@ public class PlayerScript : MonoBehaviour
         Game_Pause();
         Player_HoldSpace();
         Player_Attacking();
-        GameTime = Time.time;
+        GameTime += Time.deltaTime;
     }
     private void FixedUpdate()
     {

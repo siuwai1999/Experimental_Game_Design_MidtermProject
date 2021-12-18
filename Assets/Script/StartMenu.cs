@@ -5,29 +5,17 @@ using UnityEngine.SceneManagement;
 
 public class StartMenu : MonoBehaviour
 {
-    public PlayerScript PlayerScript;
-    public GameObject GameTitle;
-    public GameObject ModeSelect;
+    public Animator GameTitle;
+    public Animator ModeSelect;
 
     private void Start()
     {
-        GameTitle.SetActive(true);
-        ModeSelect.SetActive(false);
+        Time.timeScale = 1;
+
     }
     public void StartGame()
     {
-        GameTitle.SetActive(false);
-        ModeSelect.SetActive(true);
-    }
-
-    public void NormalMode()
-    {
-        PlayerScript.HardMode = false;
-        SceneManager.LoadScene("Level1", LoadSceneMode.Single);
-    }
-    public void HardMode()
-    {
-        PlayerScript.HardMode = true;
-        SceneManager.LoadScene("Level1", LoadSceneMode.Single);
+        GameTitle.SetBool("Click",true);
+        ModeSelect.SetBool("Click",true);
     }
 }

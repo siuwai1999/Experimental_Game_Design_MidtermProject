@@ -15,14 +15,17 @@ public class CameraSwitcher : MonoBehaviour
             Camera.allCameras[i].enabled = false;
         }
     }
+        
     void Start()
     {
         PlayerCamera = GetComponent<Camera>();
         DisbleAllCam();
     }
 
+    
     private void OnTriggerStay2D(Collider2D collision)
     {
+        PlayerCamera = GetComponent<Camera>();
         if (collision.gameObject.tag == "Player")
         {
             DisbleAllCam();

@@ -10,24 +10,39 @@ public class GameTimer : MonoBehaviour
     public int Second;
     public int Minute;
     public int hour;
+    public int Jump;
 
-    public void Calculate()
+
+    void Start()
+    {
+        Timer = GetComponent<Text>();
+        Jump = 0;
+    }
+    void Update()
+    {
+        JumpCounter();
+        TimeCounter();
+    }
+
+    void JumpCounter() /*跳躍次數計算器*/
+    {
+        if (Input.GetButtonUp("Jump"))
+        {
+            Jump++;
+        }
+    }
+
+    public void Calculate() /*單位換算*/
     {
         Second = Time_i % 60;
         Minute = Time_i / 60;
         hour = Minute / 60;
     }
 
-    void Start()
+    void TimeCounter()
     {
-        Timer = GetComponent<Text>();
-    }
-
-
-    void Update()
-    {
-        Time_f = Time.deltaTime;
-        Time_i =(int)Time.time;
+        Time_f += Time.deltaTime;
+        Time_i = (int)Time_f;
         Calculate();
         if (hour < 1)
         {
@@ -35,7 +50,7 @@ public class GameTimer : MonoBehaviour
             {
                 if (Second < 10)
                 {
-                    Timer.text = "0" + Minute.ToString() + ":" + "0" +Second.ToString();
+                    Timer.text = "0" + Minute.ToString() + ":" + "0" + Second.ToString();
                 }
                 else
                 {
@@ -80,4 +95,5 @@ public class GameTimer : MonoBehaviour
             }
         }
     }
+
 }
