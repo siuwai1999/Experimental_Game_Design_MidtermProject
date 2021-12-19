@@ -221,16 +221,17 @@ public class PlayerScript : MonoBehaviour
     }
     void Start()
     {
-        if (SystemInfo.deviceType == DeviceType.Handheld)
+        if (Application.isMobilePlatform)
         {
             PC = false;
             MobileJoyStick.SetActive(true);
         }
-        if (SystemInfo.deviceType == DeviceType.Desktop)
+        else
         {
-           PC = true;
-           MobileJoyStick.SetActive(false);
+            PC = true;
+            MobileJoyStick.SetActive(false);
         }
+
         audioSource = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
         sr = GetComponent<SpriteRenderer>();

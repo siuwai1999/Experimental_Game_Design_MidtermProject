@@ -1313,6 +1313,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 586471961}
   m_CullTransparentMesh: 1
+--- !u!114 &589293253 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7484334773097109711, guid: 401d1382124c3204a9bc34889c837c02, type: 3}
+  m_PrefabInstance: {fileID: 1930487188}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f66485a4131685c41be0c0e37c88398a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &592199772
 GameObject:
   m_ObjectHideFlags: 0
@@ -1718,6 +1729,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 717573250}
   m_CullTransparentMesh: 1
+--- !u!1 &723541770
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 723541772}
+  - component: {fileID: 723541771}
+  m_Layer: 0
+  m_Name: CompleteSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &723541771
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 723541770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e42b56a9f9287b4a82446eb2e8c19a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Complete_UI_Canvas: {fileID: 730190305}
+--- !u!4 &723541772
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 723541770}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 818.6204, y: 384.59973, z: -1481.5013}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &730190305
 GameObject:
   m_ObjectHideFlags: 0
@@ -19805,6 +19860,11 @@ RectTransform:
   m_AnchoredPosition: {x: 114.9, y: 20}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1136613674 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1779992633803398, guid: 401d1382124c3204a9bc34889c837c02, type: 3}
+  m_PrefabInstance: {fileID: 1930487188}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1139476118
 GameObject:
   m_ObjectHideFlags: 0
@@ -22831,9 +22891,17 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 3766572265717676094, guid: d46c27197c8fdd84eb9cc1af57189971, type: 3}
+      propertyPath: jumpButton
+      value: 
+      objectReference: {fileID: 589293253}
+    - target: {fileID: 3766572265717676094, guid: d46c27197c8fdd84eb9cc1af57189971, type: 3}
       propertyPath: m_inpul_left
       value: 
       objectReference: {fileID: 1930487189}
+    - target: {fileID: 3766572265717676094, guid: d46c27197c8fdd84eb9cc1af57189971, type: 3}
+      propertyPath: MobileJoyStick
+      value: 
+      objectReference: {fileID: 1136613674}
     - target: {fileID: 3766572265717676094, guid: d46c27197c8fdd84eb9cc1af57189971, type: 3}
       propertyPath: Pause_UI_Canvas
       value: 
