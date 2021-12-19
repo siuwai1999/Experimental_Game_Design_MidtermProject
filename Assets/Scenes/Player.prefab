@@ -295,6 +295,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f8c8fe6ffd9af04fa5b628ad78b9c0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PC: 1
+  Horizontal: 0
+  jumpButton: {fileID: 0}
+  MobileJoyStick: {fileID: 1779992633803398, guid: 401d1382124c3204a9bc34889c837c02, type: 3}
+  m_inpul_left: {fileID: 0}
   audioSource: {fileID: 0}
   JumpSound: {fileID: 8300000, guid: d1a2f3e5eba436344855faac9e1e879c, type: 3}
   HardMode: 1

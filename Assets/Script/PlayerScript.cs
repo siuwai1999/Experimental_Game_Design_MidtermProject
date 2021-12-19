@@ -7,7 +7,11 @@ using UnityEngine.SceneManagement;
 public class PlayerScript : MonoBehaviour
 {
     #region 欄位
-
+    public bool PC = true;
+    public float Horizontal;
+    public JumpButton jumpButton;
+    public GameObject MobileJoyStick;
+    public GameObject m_inpul_left;
     #region 公開欄位
     public AudioSource audioSource;
     public AudioClip JumpSound;
@@ -93,13 +97,13 @@ public class PlayerScript : MonoBehaviour
 
     public void Player_HoldSpace() /*玩家長按空白鍵判斷函數，Player_JumpHeigh_Time 為長按空白鍵時間，Player_JumpHeigh 為計算後的跳躍高度*/
     {
-        if (!PlayerIsJumping && Input.GetButtonDown("Jump"))
+        if (!PlayerIsJumping &&  (Input.GetButtonDown("Jump") || jumpButton.ButtonDownBool))
         {
             StartHoldSpaceTime = GameTime;
             animator.SetBool("HoldSpace_Bool", true);
         }
 
-        if (!PlayerIsJumping && Input.GetButtonUp("Jump"))
+        if (!PlayerIsJumping &&   (Input.GetButtonUp("Jump") || jumpButton.ButtonUpBool))
         {
             Player_JumpHeigh_Time = GameTime - StartHoldSpaceTime;
             Player_JumpHeigh = (GameTime - StartHoldSpaceTime) * HoldTimeMultiply; /*(按下空白鍵時間 加 鬆開空白鍵的時間) 乘  HoldTimeMultiply*/
@@ -119,13 +123,13 @@ public class PlayerScript : MonoBehaviour
 
     public void Player_Attacking () /*玩家攻擊函數*/
     {
-        if (Input.GetButton("Fire1") && PlayerIsAttacking == false)
-        {
-            PlayerIsAttacking = true;
-            print("攻擊");
-            animator.SetTrigger("Attack_Trigger");
-            Invoke("SetAttacking", 1);
-        }
+        //if (Input.GetButton("Fire1") && PlayerIsAttacking == false)
+        //{
+        //    PlayerIsAttacking = true;
+        //    print("攻擊");
+        //    animator.SetTrigger("Attack_Trigger");
+        //    Invoke("SetAttacking", 1);
+        //}
     }
     void SetAttacking() { PlayerIsAttacking = false; }
 
@@ -144,12 +148,19 @@ public class PlayerScript : MonoBehaviour
 
     public void Player_Move_Ctrl () /*玩家移動控制函數，如果長按空白鍵中則不移動*/
     {
-        float Horizontal = Input.GetAxis("Horizontal");
+        if (PC)
+        {
+            Horizontal = Input.GetAxis("Horizontal");
+        }
+        else
+        {
+           Horizontal = m_inpul_left.GetComponent<MobileInputController>().Horizontal;
+        }
+
         if (!animator.GetBool("HoldSpace_Bool"))
         {
             if (HardMode && PlayerIsJumping)
             {
-                //rb.velocity = new Vector2(Horizontal * Player_MoveSpeed, rb.velocity.y);
             }
             else
             {
@@ -210,6 +221,16 @@ public class PlayerScript : MonoBehaviour
     }
     void Start()
     {
+        if (SystemInfo.deviceType == DeviceType.Handheld)
+        {
+            PC = false;
+            MobileJoyStick.SetActive(true);
+        }
+        if (SystemInfo.deviceType == DeviceType.Desktop)
+        {
+           PC = true;
+           MobileJoyStick.SetActive(false);
+        }
         audioSource = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
         sr = GetComponent<SpriteRenderer>();
