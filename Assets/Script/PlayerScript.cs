@@ -49,6 +49,7 @@ public class PlayerScript : MonoBehaviour
     public float StartHoldSpaceTime;
     public float Player_JumpHeigh_Time;
     public float GameTime;
+    public bool InputEnabled = true;
     #endregion
 
     #region 私人欄位
@@ -148,24 +149,39 @@ public class PlayerScript : MonoBehaviour
 
     public void Player_Move_Ctrl () /*玩家移動控制函數，如果長按空白鍵中則不移動*/
     {
-        if (PC)
+        if (InputEnabled)
         {
-            Horizontal = Input.GetAxis("Horizontal");
+            if (!HardMode)
+            {
+                if (PC)
+                {
+                    Horizontal = Input.GetAxis("Horizontal");
+                }
+                else
+                {
+                    Horizontal = m_inpul_left.GetComponent<MobileInputController>().Horizontal;
+                }
+            }
+            else if (HardMode)
+            {
+                if (!PlayerIsJumping)
+                {
+                    if (PC)
+                    {
+                        Horizontal = Input.GetAxis("Horizontal");
+                    }
+                    else
+                    {
+                        Horizontal = m_inpul_left.GetComponent<MobileInputController>().Horizontal;
+                    }
+                }
+            }
         }
-        else
-        {
-           Horizontal = m_inpul_left.GetComponent<MobileInputController>().Horizontal;
-        }
+
 
         if (!animator.GetBool("HoldSpace_Bool"))
         {
-            if (HardMode && PlayerIsJumping)
-            {
-            }
-            else
-            {
-                rb.velocity = new Vector2(Horizontal * Player_MoveSpeed, rb.velocity.y);
-            }
+            rb.velocity = new Vector2(Horizontal * Player_MoveSpeed, rb.velocity.y);
         }
             
         if (Horizontal < 0)
@@ -237,6 +253,7 @@ public class PlayerScript : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
         Pause_UI_Canvas.SetActive(false);
+        InputEnabled = true;
     }
     void Update()
     {

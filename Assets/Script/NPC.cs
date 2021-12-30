@@ -21,4 +21,5 @@ public class NPC : MonoBehaviour
             dialogueSystem.PlayerExit();
         }
     }
+
 }
