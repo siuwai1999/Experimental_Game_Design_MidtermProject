@@ -5,12 +5,14 @@ using UnityEngine.SceneManagement;
 
 public class CompleteSystem : MonoBehaviour
 {
+    public Camera ZoomCam;
     public PlayerScript playerScript;
     public GameObject Complete_UI_Canvas;
     public GameTimer GameTimer;
     public Text Timer;
     public Text Jump;
     public Text AnyKey;
+
     void Start()
     {
         Complete_UI_Canvas.SetActive(false);
@@ -24,25 +26,23 @@ public class CompleteSystem : MonoBehaviour
             SceneManager.LoadSceneAsync(2);
         }
     }
-    private void OnTriggerEnter2D(Collider2D collision)
+    void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Player")
         {
-            StartCoroutine(Complete_UI());
-        }
-    }
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (collision.gameObject.tag == "Player")
-        {
-            playerScript.Horizontal = 0;
             playerScript.InputEnabled = false;
+            playerScript.Horizontal = 0;
+            StartCoroutine(Zoom());
         }
     }
-
-    IEnumerator Complete_UI()
+    IEnumerator Zoom()
     {
-        yield return new WaitForSeconds(1.5f);
+        for (float i = ZoomCam.orthographicSize; i > 4; i-= 0.05f)
+        {
+            ZoomCam.orthographicSize= i;
+            yield return new WaitForSeconds(0.025f);
+        }
+        yield return new WaitForSeconds(1f);
         Complete_UI_Canvas.SetActive(true);
         Timer.text = "通關用時：" + GameTimer.Timer.text;
         Jump.text = "跳躍次數：" + GameTimer.Jump.ToString();
@@ -50,7 +50,7 @@ public class CompleteSystem : MonoBehaviour
     }
     IEnumerator Wait()
     {
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(6f);
         AnyKey.enabled = true;
     }
 }
