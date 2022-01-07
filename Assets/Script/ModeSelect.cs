@@ -3,15 +3,14 @@ using UnityEngine.SceneManagement;
 
 public class ModeSelect : MonoBehaviour
 {
-    public PlayerScript playerScript;
     public void NormalMode()
     {
-        playerScript.HardMode = false;
+        PlayerScript.HardMode = false;
         SceneManager.LoadSceneAsync(1);
     }
     public void HardMode()
     {
-        playerScript.HardMode = true;
+        PlayerScript.HardMode = true;
         SceneManager.LoadSceneAsync(1);
     }
 }

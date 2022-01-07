@@ -12,7 +12,7 @@ public class PlayerScript : MonoBehaviour
     #region 公開欄位
     public AudioSource audioSource;
     public AudioClip JumpSound;
-    public bool HardMode = false;
+    public static bool HardMode = false;
     public int Player_LookDirection = 1;
     [Header("玩家血量")]
     public int Player_HP = 5;
@@ -97,6 +97,7 @@ public class PlayerScript : MonoBehaviour
     {
         if (!PlayerIsJumping &&  (Input.GetButtonDown("Jump") || jumpButton.ButtonDownBool))
         {
+            rb.velocity = new Vector2(0, rb.velocity.y);
             StartHoldSpaceTime = GameTime;
             animator.SetBool("HoldSpace_Bool", true);
         }

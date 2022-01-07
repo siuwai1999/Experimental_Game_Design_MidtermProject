@@ -42,7 +42,7 @@ public class DebugScript : MonoBehaviour
 
         if (DebugWindows.activeSelf)
         {
-            Mode.text = "쭂측소─:" + playerScript.HardMode.ToString() ;
+            Mode.text = "쭂측소─:" + PlayerScript.HardMode.ToString() ;
             LookDirection.text = "ㅸ쪿:" + playerScript.Player_LookDirection.ToString();
             if (Input.GetButton("Jump") && !playerScript.PlayerIsJumping)
             {
