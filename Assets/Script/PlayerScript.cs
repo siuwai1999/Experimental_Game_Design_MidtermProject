@@ -4,14 +4,15 @@ using UnityEngine.SceneManagement;
 public class PlayerScript : MonoBehaviour
 {
     #region 欄位
+    #region 公開欄位
     public bool PC = true;
     public float Horizontal;
     public JumpButton jumpButton;
     public GameObject MobileJoyStick;
     public GameObject m_inpul_left;
-    #region 公開欄位
     public AudioSource audioSource;
     public AudioClip JumpSound;
+    public AudioClip FallSound;
     public static bool HardMode = false;
     public int Player_LookDirection = 1;
     [Header("玩家血量")]
@@ -53,9 +54,10 @@ public class PlayerScript : MonoBehaviour
     private Animator animator;
     private Rigidbody2D rb;
     private SpriteRenderer sr;
+    private int PlayTime = 0;
     #endregion
 
-#endregion
+    #endregion
 
     #region 方法
 
@@ -64,7 +66,21 @@ public class PlayerScript : MonoBehaviour
         Collider2D isGround = Physics2D.OverlapCircle(transform.position + CenterOfCircle, CircleRadius, Ground);
         PlayerIsJumping = !isGround;
     }
-
+    public void Fall()
+    {
+        if (PlayerIsJumping)
+        {
+            PlayTime = 0;
+        }
+        if (!PlayerIsJumping)
+        {
+            if (PlayTime == 0 && rb.velocity.y < -26)
+            {
+                PlaySound(FallSound);
+                PlayTime++;
+            }
+        }
+    }
     public void Player_Jumping () /*玩家跳躍判斷函數*/
     {
         if (HoldSpaceUp)
@@ -120,17 +136,17 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
-    public void Player_Attacking () /*玩家攻擊函數*/
-    {
-        //if (Input.GetButton("Fire1") && PlayerIsAttacking == false)
-        //{
-        //    PlayerIsAttacking = true;
-        //    print("攻擊");
-        //    animator.SetTrigger("Attack_Trigger");
-        //    Invoke("SetAttacking", 1);
-        //}
-    }
-    void SetAttacking() { PlayerIsAttacking = false; }
+    //public void Player_Attacking () /*玩家攻擊函數*/
+    //{
+    //    if (Input.GetButton("Fire1") && PlayerIsAttacking == false)
+    //    {
+    //        PlayerIsAttacking = true;
+    //        print("攻擊");
+    //        animator.SetTrigger("Attack_Trigger");
+    //        Invoke("SetAttacking", 1);
+    //    }
+    //}
+    //void SetAttacking() { PlayerIsAttacking = false; }
 
     public void Player_GetHurt () /*玩家受傷函數*/
     {
@@ -258,7 +274,8 @@ public class PlayerScript : MonoBehaviour
         CheckGround();
         Game_Pause();
         Player_HoldSpace();
-        Player_Attacking();
+        Fall();
+        //Player_Attacking();
         GameTime += Time.deltaTime;
     }
     private void FixedUpdate()

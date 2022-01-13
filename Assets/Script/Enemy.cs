@@ -27,10 +27,6 @@ public class Enemy : MonoBehaviour
 
     public void Move()
     {
-        if (Input.GetButtonUp("Jump"))
-        {
-            rb.AddForce(new Vector2(0, 400));
-        }
         if (Player.position.x > transform.position.x)
         {
             Angle = 180;
@@ -61,6 +57,9 @@ public class Enemy : MonoBehaviour
     private void Update()
     {
         CheckPlayer();
+    }
+    private void FixedUpdate()
+    {
         Move();
     }
 }

@@ -12,11 +12,13 @@ public class CompleteSystem : MonoBehaviour
     public Text Timer;
     public Text Jump;
     public Text AnyKey;
+    public AudioSource audioSource;
 
     void Start()
     {
         Complete_UI_Canvas.SetActive(false);
         AnyKey.enabled = false;
+        audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -26,10 +28,12 @@ public class CompleteSystem : MonoBehaviour
             SceneManager.LoadSceneAsync(2);
         }
     }
+
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Player")
         {
+            audioSource.Play();
             playerScript.InputEnabled = false;
             playerScript.Horizontal = 0;
             StartCoroutine(Zoom());
